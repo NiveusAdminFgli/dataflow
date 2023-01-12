@@ -40,7 +40,7 @@ public class Main {
                                     .withValidation()
                                     .as(MyOptions.class);
         Pipeline p2 = Pipeline.create(options);
-      
+        p2.run();
         
 
 
