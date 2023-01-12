@@ -1,0 +1,21 @@
+# Dataflow
+steps:
+
+- name: 'gcr.io/cloud-builders/mvn'
+  args: ['install']
+- name: "gcr.io/niveustraining/sonar-scanner:latest" 
+  args: [ 
+    "-Dsonar.projectKey=dataflowtest", 
+    "-Dsonar.sources=./src", 
+    "-Dsonar.host.url=http://35.244.55.55:9000/",
+    "-Dsonar.login=sqp_f9dc2dc8e04950cfe3e8a989348f1ec5cd43d3f3",
+    "-Dsonar.java.binaries=.",
+    "-Dsonar.qualitygate.wait=true" ]
+
+- name: 'gcr.io/cloud-builders/mvn'
+  entrypoint: mvn
+  args:
+    - compile
+    - exec:java
+    - -Dexec.mainClass=org.example.Main
+    - "-Dexec.args=--project=niveustraining --region=asia-south1 --runner=DataflowRunner --gcpTempLocation=gs://techtest-2/template/ --templateLocation=gs://techtest-1/temp"
